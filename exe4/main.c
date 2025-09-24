@@ -23,7 +23,7 @@
 
  volatile int timer_flag = 0;
 
-volatile int timer_run = 0;
+
 
 bool timer_callback(repeating_timer_t *rt){
     timer_flag = 1;
@@ -36,6 +36,7 @@ bool timer_callback(repeating_timer_t *rt){
      gpio_init(PIN_LED_B);
      gpio_set_dir(PIN_LED_B,GPIO_OUT);
      int led =0;
+     int timer_run = 0;
      gpio_put(PIN_LED_B,led);
 
      adc_init();
