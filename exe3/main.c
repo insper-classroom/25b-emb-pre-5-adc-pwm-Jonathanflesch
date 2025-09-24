@@ -40,10 +40,8 @@ void process_task(void *p) {
                 soma +=x;
                 contador++;
 
-                if(contador == janela){
-                    int media = soma/janela;
-                    printf("%d\n",media);
-                }
+                int media = soma/janela;
+                printf("%d\n",media);
             }else{
                 soma -=1;
                 s1 = s2; s2 = s3; s3 = s4; s4 = s5; s5 = x;
