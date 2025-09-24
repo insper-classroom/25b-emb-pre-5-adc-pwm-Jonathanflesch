@@ -24,22 +24,7 @@
 
  volatile int timer_flag = 0;
 
-volatile int timer_run;
- void adc_task(void *p) {
-    adc_init();
-    adc_gpio_init(28);
-
-    
-    while (1) {
-        uint16_t result;
-        adc_select_input(2); // Select ADC input 1 (GPIO27)
-        result = adc_read();
-        leitura = result*conversion_factor;
-        //printf("%f",leitura);
-
-    }
-}
-
+volatile int timer_run = 0;
 
 bool timer_callback(repeating_timer_t *rt){
     timer_flag = 1;
@@ -49,28 +34,53 @@ bool timer_callback(repeating_timer_t *rt){
 
  int main() {
      stdio_init_all();
+     gpio_init(PIN_LED_B);
+     gpio_set_dir(PIN_LED_B,GPIO_OUT);
+     int led =0;
+     gpio_put(PIN_LED_B,led);
+
+     adc_init();
+     adc_gpio_init(28);
+     adc_select_input(2);
+
 
      repeating_timer_t tim;
 
-     int led =0;
-
+     
+     double current = -1.0;
      while (1) {
 
-        if(leitura <= 1){
+        uint16_t result = adc_read();
+        double volt = result *conversion_factor;
+
+        int zone = 0;
+        if(volt < 1.0){
+            zone= 0;
+        }else if(volt <2.0){
+            zone = 1;
+        }else{
+            zone = 2;
+        }
+
+
+        if(zone != current){
             if(timer_run){
                 cancel_repeating_timer(&tim);
+                timer_run =0;
+                gpio_put(PIN_LED_B,0);
+            }
+            if(zone == 1){
+                if(add_repeating_timer_ms(300,timer_callback,NULL,&tim)){
+                    timer_run = 1;
+                }
+            }
+            if(zone == 2){
+                if(add_repeating_timer_ms(500,timer_callback,NULL,&tim)){
+                    timer_run = 1;
+                }
             }
         }
-        if(leitura <= 2 && leitura > 1){
-            if(add_repeating_timer_ms(300,timer_callback,NULL,&tim)){
-                timer_run = 1;
-            }
-        }
-        if(leitura <= 3.3 && leitura > 2){
-            if(add_repeating_timer_ms(500,timer_callback,NULL,&tim)){
-                timer_run = 1;
-            }
-        }
+        
 
         if(timer_flag){
             timer_flag = 0;
