@@ -20,7 +20,6 @@
   * 1..2.0V: 150 ms
   * 2..3.3V: 400 ms
   */
- double leitura = 0.0;
 
  volatile int timer_flag = 0;
 
@@ -47,7 +46,7 @@ bool timer_callback(repeating_timer_t *rt){
      repeating_timer_t tim;
 
      
-     double current = -1.0;
+     int current = -1;
      while (1) {
 
         uint16_t result = adc_read();
@@ -79,6 +78,8 @@ bool timer_callback(repeating_timer_t *rt){
                     timer_run = 1;
                 }
             }
+
+            current = zone;
         }
         
 
