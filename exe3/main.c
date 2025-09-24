@@ -28,7 +28,7 @@ void process_task(void *p) {
     int data = 0;
     int janela = 5;
     int contador = 0;
-    int soma;
+    double soma = 0.0;
 
 
     while (true) {
@@ -39,16 +39,19 @@ void process_task(void *p) {
                 s1=s2;s2=s3;s3=s4;s4=s5;s5=x;
                 soma +=x;
                 contador++;
-
-                double media = soma/janela;
-                printf("%d\n",media);
+                
+                if(contador == janela){
+                    double media = soma/janela;
+                    printf("%f\n",media);
+                }
+                
             }else{
-                soma -=1;
+                soma -=s1;
                 s1 = s2; s2 = s3; s3 = s4; s4 = s5; s5 = x;
                 soma+=x;
 
                 double media = soma/janela;
-                printf("%D\n",media);
+                printf("%f\n",media);
             }
 
             // deixar esse delay!
