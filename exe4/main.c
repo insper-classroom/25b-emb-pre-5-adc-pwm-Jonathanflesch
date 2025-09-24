@@ -51,7 +51,7 @@ bool timer_callback(repeating_timer_t *rt){
      while (1) {
 
         uint16_t result = adc_read();
-        double volt = result *conversion_factor;
+        float volt = result *conversion_factor;
 
         int zone = 0;
         if(volt < 1.0){
