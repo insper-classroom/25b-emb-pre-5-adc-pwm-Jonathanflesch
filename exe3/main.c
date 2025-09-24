@@ -40,10 +40,8 @@ void process_task(void *p) {
                 soma +=x;
                 contador++;
                 
-                if(contador == janela){
-                    double media = soma/janela;
-                    printf("%f\n",media);
-                }
+                double media = soma/janela;
+                printf("%d\n",(int)media);
                 
             }else{
                 soma -=s1;
@@ -51,7 +49,7 @@ void process_task(void *p) {
                 soma+=x;
 
                 double media = soma/janela;
-                printf("%f\n",media);
+                printf("%d\n",(int)media);
             }
 
             // deixar esse delay!
