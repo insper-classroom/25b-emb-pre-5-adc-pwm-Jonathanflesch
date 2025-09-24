@@ -24,7 +24,7 @@ void data_task(void *p) {
 }
 
 void process_task(void *p) {
-    int s1=0,s2=0,s3=0,s4=0,s5=0;
+    double s1=0,s2=0,s3=0,s4=0,s5=0;
     int data = 0;
     int janela = 5;
     int contador = 0;
@@ -33,21 +33,21 @@ void process_task(void *p) {
 
     while (true) {
         if (xQueueReceive(xQueueData, &data, 100)) {
-            int x = data;
+            double x = data;
             // implementar filtro aqui!
             if(contador<janela){
                 s1=s2;s2=s3;s3=s4;s4=s5;s5=x;
                 soma +=x;
                 contador++;
 
-                int media = soma/janela;
+                double media = soma/janela;
                 printf("%d\n",media);
             }else{
                 soma -=1;
                 s1 = s2; s2 = s3; s3 = s4; s4 = s5; s5 = x;
                 soma+=x;
 
-                int media = soma/janela;
+                double media = soma/janela;
                 printf("%D\n",media);
             }
 
